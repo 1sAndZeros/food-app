@@ -1,3 +1,12 @@
-export default function Page() {
-  return <h1>Signup Page!</h1>;
-}
+import UserForm from "@/components/UserForm";
+
+const SignUpPage = () => {
+  return (
+    <div>
+      <h1>Sign Up Page!</h1>
+      <UserForm />
+    </div>
+  );
+};
+
+export default SignUpPage;
