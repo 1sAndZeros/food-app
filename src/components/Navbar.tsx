@@ -31,10 +31,13 @@ const Navbar = async () => {
           {session ? (
             <>
               <p>
-                {session.user.name} ({session.user.email})
+                {session?.user?.name} ({session?.user?.email})
               </p>
               <Image
-                src={session.user.image}
+                src={
+                  session?.user?.image ||
+                  `https://ui-avatars.com/api/?name=${session?.user?.name}`
+                }
                 alt='user image'
                 width={50}
                 height={50}

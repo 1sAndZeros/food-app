@@ -16,7 +16,7 @@ export default async function Page() {
         Logged in as: {session.user.name} ({session.user.email})
       </p>
       <Image
-        src={session.user.image}
+        src={session?.user?.image || ''}
         alt='user image'
         width={50}
         height={50}
@@ -25,3 +25,5 @@ export default async function Page() {
     </div>
   );
 }
+
+export default DashboardPage;

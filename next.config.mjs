@@ -6,7 +6,16 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**.googleusercontent.com',
         port: '',
-        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ui-avatars.com',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.discordapp.com',
+        port: '',
       },
     ],
   },
