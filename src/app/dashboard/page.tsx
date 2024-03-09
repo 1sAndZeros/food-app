@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth';
-import { options } from "../api/auth/[...nextauth]/options";
+import { options } from '../api/auth/[...nextauth]/options';
 import { redirect } from 'next/navigation';
 import Image from 'next/image';
 
@@ -16,7 +16,7 @@ const DashboardPage = async () => {
         Logged in as: {session.user?.name} ({session.user?.email})
       </p>
       <Image
-        src={session.user?.image!}
+        src={session?.user?.image || ''}
         alt='user image'
         width={50}
         height={50}
@@ -24,6 +24,6 @@ const DashboardPage = async () => {
       />
     </div>
   );
-}
+};
 
 export default DashboardPage;

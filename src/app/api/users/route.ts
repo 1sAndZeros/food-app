@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { NextApiRequest } from "next";
 import bcrypt from "bcrypt";
 
+// Create user
 export const POST = async (req: any) => {
   try {
     const body = await req.json();
@@ -34,6 +35,7 @@ export const POST = async (req: any) => {
     // Hash password
     const hashedPassword = await bcrypt.hash(userData.password, 10);
     userData.password = hashedPassword;
+    userData.image = `https://ui-avatars.com/api/?name=${userData.name}`;
 
     await User.create(userData);
     return NextResponse.json({ message: "User Created." }, { status: 201 });
