@@ -5,7 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import User from "@/models/User";
 import bcrypt from "bcrypt";
 
-export const options = {
+export const options: AuthOptions = {
   // Configure one or more authentication providers
   providers: [
     GoogleProvider({

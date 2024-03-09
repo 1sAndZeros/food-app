@@ -3,7 +3,7 @@ import { options } from '../api/auth/[...nextauth]/options';
 import { redirect } from 'next/navigation';
 import Image from 'next/image';
 
-export default async function Page() {
+const DashboardPage = async () => {
   const session = await getServerSession(options);
   if (!session) {
     redirect('/api/auth/signin?callbackUrl=/dashboard');
@@ -13,7 +13,7 @@ export default async function Page() {
     <div>
       <h1>Hello, Dashboard Page!</h1>
       <p>
-        Logged in as: {session.user.name} ({session.user.email})
+        Logged in as: {session.user?.name} ({session.user?.email})
       </p>
       <Image
         src={session?.user?.image || ''}
@@ -24,6 +24,6 @@ export default async function Page() {
       />
     </div>
   );
-}
+};
 
 export default DashboardPage;
