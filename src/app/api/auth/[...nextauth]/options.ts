@@ -17,33 +17,34 @@ export const options: AuthOptions = {
       clientSecret: process.env.DISCORD_SECRET!,
     }),
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
         email: {
-          label: "Email:",
-          type: "email",
-          placeholder: "name@example.com",
+          label: 'Email:',
+          type: 'email',
+          placeholder: 'name@example.com',
         },
         password: {
-          label: "Password:",
-          type: "password",
-          placeholder: "Enter your password",
+          label: 'Password:',
+          type: 'password',
+          placeholder: 'Enter your password',
         },
       },
       async authorize(credentials) {
         try {
-          const foundUser = await User.findOne({ email: credentials?.email })
-            .exec();
+          const foundUser = await User.findOne({
+            email: credentials?.email,
+          }).exec();
 
           if (foundUser && credentials?.password) {
-            console.log("User exists")
+            console.log('User exists');
             const match = await bcrypt.compare(
               credentials.password,
-              foundUser.password
+              foundUser.password,
             );
 
             if (match) {
-              console.log("Password matches");
+              console.log('Password matches');
               delete foundUser.password;
               return foundUser;
             } else {

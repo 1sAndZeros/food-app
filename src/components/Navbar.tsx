@@ -13,11 +13,13 @@ const Navbar = async () => {
           justifyContent: 'space-between',
           alignItems: 'center',
           padding: 20,
-          backgroundColor: 'cadetblue',
+          backgroundColor: session
+            ? 'rgba(75, 127, 82)'
+            : 'rgba(75, 127, 82, 0.5)',
           marginBottom: 20,
         }}
       >
-        <Link href='/dashboard'>Food App</Link>
+        <Link href='/'>Food App</Link>
         <div
           style={{
             display: 'flex',
@@ -26,10 +28,10 @@ const Navbar = async () => {
             gap: 10,
           }}
         >
-          <Link href='/client'>Client</Link>
-          <Link href='/dashboard'>Dashboard</Link>
           {session ? (
             <>
+              <Link href='/client'>Client</Link>
+              <Link href='/dashboard'>Dashboard</Link>
               <p>
                 {session?.user?.name} ({session?.user?.email})
               </p>
@@ -55,15 +57,28 @@ const Navbar = async () => {
               </Link>
             </>
           ) : (
-            <div
-              style={{
-                backgroundColor: 'green',
-                padding: 10,
-                borderRadius: 999,
-              }}
-            >
-              <Link href='/api/auth/signin'>Login</Link>
-            </div>
+            <>
+              <Link
+                href='/api/auth/signin'
+                style={{
+                  backgroundColor: 'green',
+                  padding: 10,
+                  borderRadius: 999,
+                }}
+              >
+                Login
+              </Link>
+              <Link
+                href='/auth/signup'
+                style={{
+                  backgroundColor: 'green',
+                  padding: 10,
+                  borderRadius: 999,
+                }}
+              >
+                Signup
+              </Link>
+            </>
           )}
         </div>
       </nav>
