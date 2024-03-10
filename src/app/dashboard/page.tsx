@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth';
 import { options } from '../api/auth/[...nextauth]/options';
 import { redirect } from 'next/navigation';
 import Image from 'next/image';
+import RecipeList from '@/components/RecipeList';
 
 const DashboardPage = async () => {
   const session = await getServerSession(options);
@@ -22,6 +23,8 @@ const DashboardPage = async () => {
         height={50}
         style={{ borderRadius: 999 }}
       />
+      
+      <RecipeList />
     </div>
   );
 };

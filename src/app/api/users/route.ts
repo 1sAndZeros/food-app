@@ -1,7 +1,7 @@
-import User from "@/models/User";
-import { NextResponse } from "next/server";
-import { NextApiRequest } from "next";
-import bcrypt from "bcrypt";
+import User from '@/models/User';
+import { NextResponse } from 'next/server';
+import { NextApiRequest } from 'next';
+import bcrypt from 'bcrypt';
 
 // Create user
 export const POST = async (req: any) => {
@@ -12,8 +12,8 @@ export const POST = async (req: any) => {
     // Check data exists
     if (!userData?.name || !userData?.email || !userData?.password) {
       return NextResponse.json(
-        { message: "All fields are required" },
-        { status: 400 }
+        { message: 'All fields are required' },
+        { status: 400 },
       );
     }
 
@@ -27,19 +27,22 @@ export const POST = async (req: any) => {
 
     if (duplicate) {
       return NextResponse.json(
-        { message: "User already exists" },
-        { status: 409 }
+        { message: 'User already exists' },
+        { status: 409 },
       );
     }
 
     // Hash password
     const hashedPassword = await bcrypt.hash(userData.password, 10);
     userData.password = hashedPassword;
-    userData.image = `https://ui-avatars.com/api/?name=${userData.name}`;
+    userData.image = encodeURI(
+      `https://ui-avatars.com/api/?name=${userData.name}`,
+    );
+    console.log(userData);
 
     await User.create(userData);
-    return NextResponse.json({ message: "User Created." }, { status: 201 });
+    return NextResponse.json({ message: 'User Created.' }, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ message: "error", error }, { status: 500 });
+    return NextResponse.json({ message: 'error', error }, { status: 500 });
   }
 };
