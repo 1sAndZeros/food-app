@@ -1,7 +1,8 @@
-import Link from 'next/link';
+import Link from './Link';
 import { getServerSession } from 'next-auth';
 import { options } from '@/app/api/auth/[...nextauth]/options';
 import Image from 'next/image';
+import Avatar from './Avatar';
 
 const Navbar = async () => {
   const session = await getServerSession(options);
@@ -35,49 +36,15 @@ const Navbar = async () => {
               <p>
                 {session?.user?.name} ({session?.user?.email})
               </p>
-              <Image
-                src={
-                  session?.user?.image ||
-                  `https://ui-avatars.com/api/?name=${session?.user?.name}`
-                }
-                alt='user image'
-                width={50}
-                height={50}
-                style={{ borderRadius: 999 }}
-              />
-              <Link
-                href='/api/auth/signout?callbackUrl=/'
-                style={{
-                  backgroundColor: 'tomato',
-                  padding: 10,
-                  borderRadius: 999,
-                }}
-              >
+              <Avatar size='small' />
+              <Link href='/api/auth/signout?callbackUrl=/' variant='danger'>
                 Logout
               </Link>
             </>
           ) : (
             <>
-              <Link
-                href='/api/auth/signin'
-                style={{
-                  backgroundColor: 'green',
-                  padding: 10,
-                  borderRadius: 999,
-                }}
-              >
-                Login
-              </Link>
-              <Link
-                href='/auth/signup'
-                style={{
-                  backgroundColor: 'green',
-                  padding: 10,
-                  borderRadius: 999,
-                }}
-              >
-                Signup
-              </Link>
+              <Link href='/api/auth/signin'>Login</Link>
+              <Link href='/auth/signup'>Signup</Link>
             </>
           )}
         </div>
