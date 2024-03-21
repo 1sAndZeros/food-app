@@ -1,5 +1,4 @@
 const theme = {
-  roberto: 'red',
   colors: {
     primary: 'green',
     secondary: 'blue',
