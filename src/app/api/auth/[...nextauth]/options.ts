@@ -1,11 +1,23 @@
-import { AuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
+import { NextAuthOptions } from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
 import DiscordProvider from 'next-auth/providers/discord';
-import CredentialsProvider from "next-auth/providers/credentials";
-import User from "@/models/User";
-import bcrypt from "bcrypt";
+import CredentialsProvider from 'next-auth/providers/credentials';
+import User from '@/models/User';
+import bcrypt from 'bcrypt';
+import { MongoDBAdapter } from '@auth/mongodb-adapter';
+import clientPromise from '@/lib/mongodb';
 
-export const options: AuthOptions = {
+export const options: NextAuthOptions = {
+  theme: {
+    brandColor: '#c9ffe2',
+    logo: '/image-bg.jpg',
+    colorScheme: 'dark',
+    buttonText: 'Sign in',
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: 'jwt',
+  },
   // Configure one or more authentication providers
   providers: [
     GoogleProvider({
@@ -58,19 +70,4 @@ export const options: AuthOptions = {
       },
     }),
   ],
-
-  callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-      return true;
-    },
-    async redirect({ url, baseUrl }) {
-      return baseUrl;
-    },
-    async session({ session, token, user }) {
-      return session;
-    },
-    async jwt({ token, user, account, profile, isNewUser }) {
-      return token;
-    },
-  },
 };

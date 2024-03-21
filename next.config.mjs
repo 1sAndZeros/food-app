@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  compiler: {
+    styledComponents: true,
+  },
   images: {
     remotePatterns: [
       {
@@ -15,6 +18,11 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'cdn.discordapp.com',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'spoonacular.com',
         port: '',
       },
     ],
