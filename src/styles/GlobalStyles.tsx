@@ -18,7 +18,7 @@ const GlobalStyles = styled.createGlobalStyle`
   body {
     min-height: 100vh;
     color: black;
-    background: linear-gradient(to bottom, #96e8bc, #b6f9c9, #c9ffe2);
+    padding: 2rem;
   }
 
   a {
