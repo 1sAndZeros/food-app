@@ -4,26 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import User from './User';
+import { navLinks } from '@/data';
 
-interface NavLink {
-  name: string;
-  link: string;
-}
-
-const navLinks: NavLink[] = [
-  {
-      name: 'Home',
-      link: "/"
-  },
-  {
-      name: "My recipes",
-      link: "/recipes"
-  },
-  {
-      name: "About Us",
-      link: "/about"
-  }
-]
 
 const StyledNavbar = styled.header`
   display: flex;

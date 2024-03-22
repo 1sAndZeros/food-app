@@ -2,7 +2,7 @@ import { dishTypes } from "@/data";
 
 export interface ExampleProps {
   title: string;
-  type?: 'button' | 'submit';
+  type?: "button" | "submit";
   isDisabled?: boolean;
 }
 
@@ -25,3 +25,8 @@ export interface Recipe {
 }
 
 export type Dish = (typeof dishTypes)[number];
+
+export interface NavLink {
+  name: string;
+  link: string;
+}
