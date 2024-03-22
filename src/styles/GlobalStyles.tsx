@@ -25,6 +25,12 @@ const GlobalStyles = styled.createGlobalStyle`
     color: inherit;
     text-decoration: none;
   }
+
+  @media screen and (min-width: 1280px) {
+    body {
+      padding: 3rem;
+    }
+  }
 `;
 
 export default GlobalStyles;

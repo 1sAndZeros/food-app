@@ -1,17 +1,24 @@
-import Image from 'next/image';
 import { getServerSession } from 'next-auth';
 import { options } from './api/auth/[...nextauth]/options';
-import { redirect } from 'next/navigation';
 import HeroSection from '@/components/HeroSection';
 import RecipeList from '@/components/RecipeList';
+import { fetchRecipes } from '@/utils';
+import { Dish, Recipe } from '@/types';
 
-export default async function Home() {
+interface HomeProps {
+  searchParams: { dishType: Dish };
+}
+
+export default async function Home({ searchParams }: HomeProps) {
+  const { recipes }: { recipes: Recipe[] } = await fetchRecipes({
+    dishType: searchParams?.dishType || 'dinner',
+  });
   const session = await getServerSession(options);
-  
+
   return (
     <main style={{ display: 'grid', placeItems: 'center' }}>
       <HeroSection />
-      <RecipeList />
+      <RecipeList recipes={recipes} />
     </main>
   );
 }

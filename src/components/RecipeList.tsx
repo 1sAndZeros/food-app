@@ -1,18 +1,21 @@
-import { fetchRecipes } from '@/utils';
-import { Recipe } from '@/types';
 import RecipeCard from './RecipeCard';
+import StyledDiv, { Header } from './RecipeList.styles';
+import { Recipe } from '@/types';
 
-const RecipeList = async () => {
-  const { recipes }: { recipes: Recipe[] } = await fetchRecipes();
+interface RecipeListProps {
+  recipes: Recipe[];
+}
+
+const RecipeList = ({ recipes }: RecipeListProps) => {
   return (
-    <div style={{ maxWidth: 1200, margin: '0 auto'}}>
-      <h1>Recipes</h1>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 20 }}>
+    <StyledDiv>
+      <Header />
+      <div className='grid'>
         {recipes.map((recipe) => (
           <RecipeCard key={recipe.id} recipe={recipe} />
         ))}
       </div>
-    </div>
+    </StyledDiv>
   );
 };
 

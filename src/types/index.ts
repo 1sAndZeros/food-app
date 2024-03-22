@@ -1,3 +1,5 @@
+import { dishTypes } from "@/data";
+
 export interface ExampleProps {
   title: string;
   type?: 'button' | 'submit';
@@ -21,3 +23,5 @@ export interface Recipe {
   dishTypes: string[];
   instructions: string;
 }
+
+export type Dish = (typeof dishTypes)[number];
