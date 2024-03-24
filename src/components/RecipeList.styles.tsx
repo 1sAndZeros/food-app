@@ -6,6 +6,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { updateSearchParams } from '@/utils';
+import { dishTypes } from '@/data';
+import { Dish } from '@/types';
 
 const StyledDiv = styled.div`
   /* max-width: 1400px; */
@@ -25,9 +27,6 @@ const StyledDiv = styled.div`
     }
   }
 `;
-
-const dishTypes = ['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack'] as const;
-type Dish = (typeof dishTypes)[number];
 
 const StyledHeader = styled.div`
   font-size: 2rem;
@@ -66,7 +65,7 @@ const StyledHeader = styled.div`
 export const Header = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const dish = searchParams.get('dishType') as Dish;
+  const dish = searchParams.get('dishType') as Dish | null;
   const [activeType, setActiveType] = useState<Dish | null>(dish || 'Dinner');
 
   const handleChangeType = (type: Dish) => {
@@ -87,6 +86,7 @@ export const Header = () => {
           <Button
             className={activeType === type ? 'active' : ''}
             key={i}
+            type='button'
             variant='ghostgrey'
             onClick={(e) => handleChangeType(type)}
           >

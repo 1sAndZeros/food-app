@@ -1,10 +1,4 @@
-import { dishTypes } from "@/data";
-
-export interface ExampleProps {
-  title: string;
-  type?: "button" | "submit";
-  isDisabled?: boolean;
-}
+import { cusines, dishTypes } from "@/data";
 
 export interface Recipe {
   id: number;
@@ -25,6 +19,8 @@ export interface Recipe {
 }
 
 export type Dish = (typeof dishTypes)[number];
+
+export type Cuisine = (typeof cusines)[number];
 
 export interface NavLink {
   name: string;

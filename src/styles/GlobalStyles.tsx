@@ -26,6 +26,12 @@ const GlobalStyles = styled.createGlobalStyle`
     text-decoration: none;
   }
 
+  h4,
+  label {
+    color: ${(props) => props.theme.colors.primary};
+    font-weight: 600;
+  }
+
   @media screen and (min-width: 1280px) {
     body {
       padding: 3rem;

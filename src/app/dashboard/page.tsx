@@ -24,7 +24,7 @@ const DashboardPage = async () => {
         style={{ borderRadius: 999 }}
       />
       
-      <RecipeList />
+      {/* <RecipeList /> */}
     </div>
   );
 };
