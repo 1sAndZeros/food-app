@@ -1,6 +1,6 @@
-import { Dish } from "@/types";
+import { Dish } from '@/types';
 
-export const fetchRecipes = async (filters: {dishType?: Dish}) => {
+export const fetchRecipes = async (filters: { dishType?: Dish }) => {
   const { dishType } = filters;
   try {
     const API_KEY = process.env.FOOD_API_KEY;
@@ -19,7 +19,7 @@ export const convertTime = (time: number) => {
   if (time < 60) return `${time} min`;
   const hours = Math.floor(time / 60);
   const minutes = time % 60;
-  return `${hours}h ${minutes} min`;
+  return `${hours}h ${minutes ? minutes + 'min' : ''}`;
 };
 
 export const updateSearchParams = (type: string, value: string) => {

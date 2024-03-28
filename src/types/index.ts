@@ -26,3 +26,8 @@ export interface NavLink {
   name: string;
   link: string;
 }
+
+export type CookingTime = {
+  min: number;
+  max: number;
+};

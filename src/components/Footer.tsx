@@ -1,9 +1,9 @@
-"use client";
-import styled from "styled-components";
-import Link from "next/link";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { navLinks } from "@/data";
+'use client';
+import styled from 'styled-components';
+import Link from 'next/link';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { navLinks } from '@/data';
 
 const StyledFooter = styled.footer`
   display: grid;
@@ -26,7 +26,7 @@ const StyledFooter = styled.footer`
     font-weight: 600;
     gap: 0.4rem;
     & img {
-      filter: grayscale(100%)
+      filter: grayscale(100%);
     }
   }
   & nav {
@@ -43,9 +43,9 @@ const StyledFooter = styled.footer`
     }
   }
   & .copyright {
-    grid-area: 2 / 2 / 3 / 3;
+    grid-area: 2 / 1 / 3 / 4;
     text-align: center;
-    color: #F0EBE199;
+    color: #f0ebe199;
     text-transform: uppercase;
     font-size: 0.7rem;
   }
@@ -57,15 +57,15 @@ const Footer = () => {
 
   return (
     <StyledFooter>
-      <Link href="/" className="brand">
-        <Image alt="logo" src="Logo.svg" width="40" height="30" />
+      <Link href='/' className='brand'>
+        <Image alt='logo' src='Logo.svg' width='40' height='30' />
         Food App
       </Link>
       <nav>
         {navLinks.map((link, index) => (
           <li key={index}>
             <Link
-              className={isActive(link.link) ? "active" : ""}
+              className={isActive(link.link) ? 'active' : ''}
               href={link.link}
             >
               {link.name}
@@ -73,7 +73,7 @@ const Footer = () => {
           </li>
         ))}
       </nav>
-      <div className="copyright">
+      <div className='copyright'>
         <p>Copyright: © 2024 Food app.</p>
         <p>Rikie Patrick, Alina Ermakova, Roberto Quadraccia</p>
       </div>

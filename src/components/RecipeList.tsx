@@ -9,7 +9,6 @@ interface RecipeListProps {
 const RecipeList = ({ recipes }: RecipeListProps) => {
   return (
     <StyledDiv>
-      <Header />
       <div className='grid'>
         {recipes.map((recipe) => (
           <RecipeCard key={recipe.id} recipe={recipe} />

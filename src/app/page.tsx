@@ -4,6 +4,7 @@ import HeroSection from '@/components/HeroSection';
 import RecipeList from '@/components/RecipeList';
 import { fetchRecipes } from '@/utils';
 import { Dish, Recipe } from '@/types';
+import { Header } from '@/components/RecipeList.styles';
 
 interface HomeProps {
   searchParams: { dishType: Dish };

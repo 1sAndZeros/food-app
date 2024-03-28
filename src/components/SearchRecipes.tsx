@@ -1,12 +1,12 @@
 'use client';
 
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Button from './Button';
 import { cusines, dishTypes } from '@/data';
-import { Cuisine, Dish } from '@/types';
-import RangeInput from './RangeInput';
+import { Cuisine, Dish, CookingTime } from '@/types';
 import Container from './Container';
+import MultiRangeSlider from './MultiRangeSlider/MultiRangeSlider';
 
 const StyledForm = styled.form`
   display: flex;
@@ -56,7 +56,12 @@ const StyledForm = styled.form`
     flex-wrap: wrap;
     gap: 1rem;
     align-items: center;
-    accent-color: red;
+  }
+
+  .checkbox-group {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
   }
 
   input[type='checkbox'] {
@@ -118,9 +123,30 @@ const SearchRecipes = () => {
   const [activeCuisineType, setActiveCuisineType] = useState<Cuisine | null>(
     'Italian',
   );
+  const servingRef = useRef<HTMLSelectElement>(null);
+  const [cookingTime, setCookingTime] = useState<CookingTime>({
+    min: 10,
+    max: 180,
+  });
+  const vegetarianRef = useRef<HTMLInputElement>(null);
+  const veganRef = useRef<HTMLInputElement>(null);
+  const diaryFreeRef = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    console.log('veg:', vegetarianRef.current?.checked);
+    console.log('vegan: ', veganRef.current?.checked);
+    console.log('diary: ', diaryFreeRef.current?.checked);
+    console.log('servings: ', servingRef.current?.value);
+    console.log('dishType: ', activeDishType);
+    console.log('cuisine: ', activeCuisineType);
+  };
+
   return (
-    <Container>
-      <StyledForm>
+    <Container
+      style={{ maxHeight: '650px', overflow: 'auto', scrollbarWidth: 'none' }}
+    >
+      <StyledForm onSubmit={handleSubmit}>
         <h3>Create Your Recipe</h3>
         <div className='form-group'>
           <h4>Meal Type:</h4>
@@ -139,16 +165,22 @@ const SearchRecipes = () => {
           </div>
         </div>
         <div className='input-group'>
-          <label htmlFor='vegetarian'>Vegetarian</label>
-          <input id='vegetarian' type='checkbox' />
-          <label htmlFor='vegan'>Vegan</label>
-          <input id='vegan' type='checkbox' />
-          <label htmlFor='dairy-free'>Dairy Free</label>
-          <input id='dairy-free' type='checkbox' />
+          <div className='checkbox-group'>
+            <label htmlFor='vegetarian'>Vegetarian</label>
+            <input id='vegetarian' type='checkbox' ref={vegetarianRef} />
+          </div>
+          <div className='checkbox-group'>
+            <label htmlFor='vegan'>Vegan</label>
+            <input id='vegan' type='checkbox' ref={veganRef} />
+          </div>
+          <div className='checkbox-group'>
+            <label htmlFor='dairy-free'>Dairy Free</label>
+            <input id='dairy-free' type='checkbox' ref={diaryFreeRef} />
+          </div>
         </div>
         <div className='input-group'>
           <h4>Servings:</h4>
-          <select>
+          <select ref={servingRef}>
             <option value='1'>1</option>
             <option value='2'>2</option>
             <option value='3'>3</option>
@@ -173,9 +205,12 @@ const SearchRecipes = () => {
         </div>
         <div className='form-group'>
           <h4>Cooking Time:</h4>
-          <RangeInput min={10} max={180} step={10} />
-          <p>10 min</p>
-          <p>3H</p>
+          <MultiRangeSlider
+            min={10}
+            max={180}
+            cookingTime={cookingTime}
+            setCookingTime={setCookingTime}
+          />
         </div>
         <Button type='submit'>Apply</Button>
       </StyledForm>

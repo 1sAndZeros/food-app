@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import SearchRecipes from '@/components/SearchRecipes';
 import Container from '@/components/Container';
 import InfoCard from '@/components/InfoCard';
+import RecipeList from '@/components/RecipeList';
 
 const RecipesPage = async () => {
   const session = await getServerSession(options);
@@ -19,7 +20,7 @@ const RecipesPage = async () => {
       >
         <SearchRecipes />
         <InfoCard />
-        {/* <RecipeList /> */}
+        <RecipeList recipes={[]} />
       </div>
     </>
   );

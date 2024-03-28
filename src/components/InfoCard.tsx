@@ -74,6 +74,9 @@ export default function InfoCard() {
         display: 'flex',
         flexDirection: 'column',
         gap: '1rem',
+        maxHeight: '650px',
+        overflow: 'auto',
+        scrollbarWidth: 'none',
       }}
     >
       <Header>
