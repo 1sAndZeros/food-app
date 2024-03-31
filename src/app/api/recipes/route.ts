@@ -4,6 +4,10 @@ import { NextResponse } from 'next/server';
 
 export const GET = async (req: any) => {
   const dishType = req.nextUrl.searchParams.get('dishType');
+  const cuisine = req.nextUrl.searchParams.get('cuisine');
+  // const dishType = req.nextUrl.searchParams.get('dishType');
+  // const dishType = req.nextUrl.searchParams.get('dishType');
+  // const dishType = req.nextUrl.searchParams.get('dishType');
   const { recipes } = JSON.parse(JSON.stringify(data));
   if (dishType) {
     const filteredRecipes = recipes.filter((recipe: Recipe) =>

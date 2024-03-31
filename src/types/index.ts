@@ -31,3 +31,13 @@ export type CookingTime = {
   min: number;
   max: number;
 };
+
+export interface FilterProps {
+  dishType: Dish;
+  cuisine: Cuisine;
+  dairyFree: boolean;
+  vegan: boolean;
+  vegetarian: boolean;
+  servings: number;
+  cookingTime: CookingTime;
+}

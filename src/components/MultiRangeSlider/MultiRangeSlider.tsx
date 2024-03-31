@@ -7,7 +7,7 @@ interface MultiRangeSliderProps {
   min: number;
   max: number;
   cookingTime: CookingTime;
-  setCookingTime: React.Dispatch<React.SetStateAction<CookingTime>>;
+  setCookingTime: (cookingTime: CookingTime) => void;
 }
 
 const MultiRangeSlider = ({
@@ -56,7 +56,7 @@ const MultiRangeSlider = ({
   // Get min and max values when their state changes
   useEffect(() => {
     setCookingTime({ min: minVal, max: maxVal });
-  }, [minVal, maxVal, setCookingTime]);
+  }, [minVal, maxVal]);
 
   return (
     <StyledDiv>
