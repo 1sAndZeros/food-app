@@ -2,23 +2,13 @@ import { getServerSession } from "next-auth";
 import { options } from "../api/auth/[...nextauth]/options";
 import { redirect } from "next/navigation";
 import SearchRecipes from "@/components/SearchRecipes";
-import Container from "@/components/Container";
 import InfoCard from "@/components/InfoCard";
 import RecipeList from "@/components/RecipeList";
-import { Recipe, Dish, Cuisine } from "@/types";
+import { Recipe, RecipeSearchParams } from "@/types";
 import { fetchRecipes } from "@/utils";
 
 interface RecipePageProps {
-  searchParams: {
-    dishType: Dish;
-    cuisine: Cuisine;
-    dairyFree: boolean;
-    vegan: boolean;
-    vegetarian: boolean;
-    servings: number;
-    minCookingTime: number;
-    maxCookingTime: number;
-  };
+  searchParams: RecipeSearchParams
 }
 
 const RecipesPage = async ({ searchParams }: RecipePageProps) => {
@@ -27,18 +17,9 @@ const RecipesPage = async ({ searchParams }: RecipePageProps) => {
     redirect("/api/auth/signin?callbackUrl=/recipes");
   }
 
-  const { recipes }: { recipes: Recipe[] } = await fetchRecipes({
-    dishType: searchParams?.dishType || "Dinner",
-    cuisine: searchParams?.cuisine || "Italian",
-    dairyFree: searchParams?.dairyFree || false,
-    vegan: searchParams?.vegan || false,
-    vegetarian: searchParams?.vegetarian || false,
-    servings: searchParams?.servings || 1,
-    cookingTime: {
-      min: searchParams?.minCookingTime || 10,
-      max: searchParams?.maxCookingTime || 180,
-    },
-  });
+  const data = await fetchRecipes(searchParams);
+
+  const recipes = data?.recipes as Recipe[];
 
   return (
     <>

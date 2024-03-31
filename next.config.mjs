@@ -22,6 +22,11 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: '**.spoonacular.com',
+        port: '',
+      },
+      {
+        protocol: 'https',
         hostname: 'spoonacular.com',
         port: '',
       },

@@ -3,22 +3,32 @@ import { options } from './api/auth/[...nextauth]/options';
 import HeroSection from '@/components/HeroSection';
 import RecipeList from '@/components/RecipeList';
 import { fetchRecipes } from '@/utils';
-import { Dish, Recipe } from '@/types';
+import { Recipe, RecipeSearchParams } from '@/types';
 import { Header } from '@/components/RecipeList.styles';
 
 interface HomeProps {
-  searchParams: { dishType: Dish };
+  searchParams: RecipeSearchParams;
 }
 
 export default async function Home({ searchParams }: HomeProps) {
-  const { recipes }: { recipes: Recipe[] } = await fetchRecipes({
-    dishType: searchParams?.dishType || 'dinner',
+  const { recipes = [] } = await fetchRecipes({
+    dishType: searchParams?.dishType || 'Dinner',
+    cuisine: searchParams?.cuisine || 'Italian',
+    dairyFree: searchParams?.dairyFree || false,
+    vegan: searchParams?.vegan || false,
+    vegetarian: searchParams?.vegetarian || false,
+    servings: searchParams?.servings || 1,
+    cookingTime: {
+      min: searchParams?.minCookingTime || 10,
+      max: searchParams?.maxCookingTime || 180,
+    },
   });
   const session = await getServerSession(options);
 
   return (
     <main style={{ display: 'grid', placeItems: 'center' }}>
       <HeroSection />
+      <Header />
       <RecipeList recipes={recipes} />
     </main>
   );

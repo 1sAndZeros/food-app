@@ -1,4 +1,4 @@
-import { cusines, dishTypes } from "@/data";
+import { cusines, dishTypes } from '@/data';
 
 export interface Recipe {
   id: number;
@@ -33,11 +33,22 @@ export type CookingTime = {
 };
 
 export interface FilterProps {
-  dishType: Dish;
-  cuisine: Cuisine;
-  dairyFree: boolean;
-  vegan: boolean;
-  vegetarian: boolean;
-  servings: number;
-  cookingTime: CookingTime;
+  dishType?: Dish;
+  cuisine?: Cuisine;
+  dairyFree?: boolean;
+  vegan?: boolean;
+  vegetarian?: boolean;
+  servings?: number;
+  cookingTime?: CookingTime;
+}
+
+export interface RecipeSearchParams {
+  dishType?: Dish;
+  cuisine?: Cuisine;
+  dairyFree?: boolean;
+  vegan?: boolean;
+  vegetarian?: boolean;
+  servings?: number;
+  minCookingTime?: number;
+  maxCookingTime?: number;
 }

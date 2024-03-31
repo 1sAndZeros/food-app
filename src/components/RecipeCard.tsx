@@ -73,8 +73,25 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
       <Star1 className='icon' size='32' />
       <h3 key={recipe.id}>{recipe.title}</h3>
       <p className='recipe__content'>{recipe.cuisines.join(', ')}</p>
+      <p className='recipe__content'>
+        {recipe.dishTypes
+          .map(
+            (dish) =>
+              `${dish.slice(0, 1).toUpperCase()}${dish.slice(1).toLowerCase()}`,
+          )
+          .join(', ')}
+      </p>
       <div className='details'>
         <p className='recipe__content'>Serves {recipe.servings}</p>
+        {recipe.dairyFree && (
+          <p className='recipe__content'>{recipe.dairyFree && 'Dairy Free'}</p>
+        )}
+        {recipe.vegan && (
+          <p className='recipe__content'>{recipe.vegan && 'Vegan'}</p>
+        )}
+        {recipe.vegetarian && (
+          <p className='recipe__content'>{recipe.vegetarian && 'Veg'}</p>
+        )}
         <p className='recipe__content'>
           Time: {convertTime(recipe.readyInMinutes)}
         </p>

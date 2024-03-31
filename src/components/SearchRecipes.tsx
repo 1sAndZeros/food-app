@@ -1,15 +1,21 @@
-"use client";
+'use client';
 
-import styled from "styled-components";
-import React, { useState, useRef } from "react";
-import Button from "./Button";
-import { cusines, dishTypes } from "@/data";
-import { Cuisine, Dish, CookingTime, FilterProps } from "@/types";
-import Container from "./Container";
-import MultiRangeSlider from "./MultiRangeSlider/MultiRangeSlider";
-import { useRouter, useSearchParams } from "next/navigation";
-import { updateSearchParams } from "@/utils";
-import { set } from "mongoose";
+import styled from 'styled-components';
+import React, { useState, useRef, useEffect } from 'react';
+import Button from './Button';
+import { cusines, dishTypes } from '@/data';
+import {
+  Cuisine,
+  Dish,
+  CookingTime,
+  FilterProps,
+  RecipeSearchParams,
+} from '@/types';
+import Container from './Container';
+import MultiRangeSlider from './MultiRangeSlider/MultiRangeSlider';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { updateSearchParams } from '@/utils';
+import { set } from 'mongoose';
 
 const StyledForm = styled.form`
   display: flex;
@@ -41,7 +47,7 @@ const StyledForm = styled.form`
     font-size: 0.75rem;
   }
 
-  button[type="submit"] {
+  button[type='submit'] {
     font-size: 0.75rem;
     background-color: ${(props) => props.theme.colors.neutral.black};
     border: none;
@@ -67,7 +73,7 @@ const StyledForm = styled.form`
     align-items: center;
   }
 
-  input[type="checkbox"] {
+  input[type='checkbox'] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -78,8 +84,8 @@ const StyledForm = styled.form`
     border-radius: 0.25rem;
   }
 
-  input[type="checkbox"]:checked::before {
-    content: "";
+  input[type='checkbox']:checked::before {
+    content: '';
     border: 2px solid ${(props) => props.theme.colors.neutral[800]};
     background-color: ${(props) => props.theme.colors.neutral[800]};
     position: absolute;
@@ -106,7 +112,7 @@ const StyledForm = styled.form`
     position: relative;
   }
 
-  input[type="range"] {
+  input[type='range'] {
     ~ p {
       position: absolute;
       bottom: 0;
@@ -124,19 +130,35 @@ const StyledForm = styled.form`
 const SearchRecipes = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const dish = searchParams.get("dishType") as Dish | null;
+  const vegan = searchParams.get('vegan');
+  const dairyFree = searchParams.get('dairyFree');
+  const vegetarian = searchParams.get('vegetarian');
+  console.log(vegan, dairyFree, vegetarian);
   const [filters, setFilters] = useState<FilterProps>({
-    dishType: "Dinner",
-    cuisine: "Italian",
-    servings: 1,
-    dairyFree: false,
-    vegan: false,
-    vegetarian: false,
+    dishType: (searchParams.get('dishType') as Dish) || 'Dinner',
+    cuisine: (searchParams.get('cuisine') as Cuisine) || 'Italian',
+    servings: Number(searchParams.get('servings')) || 1,
+    dairyFree: dairyFree === 'true' ? true : false,
+    vegan: vegan === 'true' ? true : false,
+    vegetarian: vegetarian === 'true' ? true : false,
     cookingTime: {
-      min: 10,
-      max: 180,
+      min: Number(searchParams.get('cookingTimeMin')) || 10,
+      max: Number(searchParams.get('cookingTimeMax')) || 180,
     },
   });
+
+  // useEffect(() => {
+  //   const vegan = searchParams.get('vegan');
+  //   console.log(vegan);
+  //   if (vegan === 'true' || vegan === 'false') {
+  //     console.log('vegan', Boolean(vegan));
+  //     setFilters((prev) => ({ ...prev, vegan: Boolean(vegan) }));
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    console.log(filters);
+  }, [filters]);
 
   // const [activeDishType, setActiveDishType] = useState<Dish | null>("Dinner");
   // const [activeCuisineType, setActiveCuisineType] = useState<Cuisine | null>(
@@ -153,14 +175,6 @@ const SearchRecipes = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(filters);
-    // console.log("veg:", vegetarianRef.current?.checked);
-    // console.log("vegan: ", veganRef.current?.checked);
-    // console.log("diary: ", diaryFreeRef.current?.checked);
-    // console.log("servings: ", servingRef.current?.value);
-    // console.log("dishType: ", activeDishType);
-    // console.log("cuisine: ", activeCuisineType);
-    // handleChangeType(activeDishType);
     const searchParams = new URLSearchParams({
       dishType: filters.dishType,
       cuisine: filters.cuisine,
@@ -189,7 +203,7 @@ const SearchRecipes = () => {
   // };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setFilters({ ...filters, [name]: value });
@@ -206,81 +220,84 @@ const SearchRecipes = () => {
 
   return (
     <Container
-      style={{ maxHeight: "650px", overflow: "auto", scrollbarWidth: "none" }}
+      style={{ maxHeight: '650px', overflow: 'auto', scrollbarWidth: 'none' }}
     >
       <StyledForm onSubmit={handleSubmit}>
         <h3>Create Your Recipe</h3>
-        <div className="form-group">
+        <div className='form-group'>
           <h4>Meal Type:</h4>
-          <div className="button-container">
+          <div className='button-container'>
             {dishTypes.map((dish, i) => (
               <Button
-                className={filters?.dishType === dish ? "active" : ""}
+                className={filters?.dishType === dish ? 'active' : ''}
                 key={i}
-                type="button"
-                variant="ghostgrey"
-                onClick={() => handleButtonChange(dish, "dishType")}
+                type='button'
+                variant='ghostgrey'
+                onClick={() => handleButtonChange(dish, 'dishType')}
               >
                 {dish}
               </Button>
             ))}
           </div>
         </div>
-        <div className="input-group">
-          <div className="checkbox-group">
-            <label htmlFor="vegetarian">Vegetarian</label>
+        <div className='input-group'>
+          <div className='checkbox-group'>
+            <label htmlFor='vegetarian'>Vegetarian</label>
             <input
-              name="vegetarian"
-              id="vegetarian"
-              type="checkbox"
+              name='vegetarian'
+              id='vegetarian'
+              type='checkbox'
+              checked={filters.vegetarian}
               onChange={handleCheckBoxChange}
             />
           </div>
-          <div className="checkbox-group">
-            <label htmlFor="vegan">Vegan</label>
+          <div className='checkbox-group'>
+            <label htmlFor='vegan'>Vegan</label>
             <input
-              name="vegan"
-              id="vegan"
-              type="checkbox"
+              name='vegan'
+              id='vegan'
+              type='checkbox'
+              checked={filters.vegan}
               onChange={handleCheckBoxChange}
             />
           </div>
-          <div className="checkbox-group">
-            <label htmlFor="dairy-free">Dairy Free</label>
+          <div className='checkbox-group'>
+            <label htmlFor='dairy-free'>Dairy Free</label>
             <input
-              name="dairyFree"
-              id="dairy-free"
-              type="checkbox"
+              name='dairyFree'
+              id='dairy-free'
+              type='checkbox'
+              checked={filters.dairyFree}
               onChange={handleCheckBoxChange}
             />
           </div>
         </div>
-        <div className="input-group">
+        <div className='input-group'>
           <h4>Servings:</h4>
-          <select name="servings" onChange={handleChange}>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4+</option>
+          <select name='servings' onChange={handleChange}>
+            <option value='1'>1</option>
+            <option value='2'>2</option>
+            <option value='3'>3</option>
+            <option value='4'>4+</option>
           </select>
         </div>
-        <div className="form-group">
+        <div className='form-group'>
           <h4>Cuisine:</h4>
-          <div className="button-container">
+          <div className='button-container'>
             {cusines.map((cuisine, i) => (
               <Button
-                className={filters.cuisine === cuisine ? "active" : ""}
+                className={filters.cuisine === cuisine ? 'active' : ''}
                 key={i}
-                type="button"
-                variant="ghostgrey"
-                onClick={() => handleButtonChange(cuisine, "cuisine")}
+                type='button'
+                variant='ghostgrey'
+                onClick={() => handleButtonChange(cuisine, 'cuisine')}
               >
                 {cuisine}
               </Button>
             ))}
           </div>
         </div>
-        <div className="form-group">
+        <div className='form-group'>
           <h4>Cooking Time:</h4>
           <MultiRangeSlider
             min={10}
@@ -294,7 +311,7 @@ const SearchRecipes = () => {
             }
           />
         </div>
-        <Button type="submit">Apply</Button>
+        <Button type='submit'>Apply</Button>
       </StyledForm>
     </Container>
   );
