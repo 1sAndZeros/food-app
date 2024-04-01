@@ -10,13 +10,13 @@ const filterChecks: FilterChecks = {
   dairyFree: (recipe: Recipe, value: string) =>
     String(recipe.dairyFree) === value,
   vegan: (recipe: Recipe, value: string) => String(recipe.vegan) === value,
-  vegetarian: (recipe: Recipe, value: string) => String(recipe.vegetarian) === value,
+  vegetarian: (recipe: Recipe, value: string) =>
+    String(recipe.vegetarian) === value,
   minCookingTime: (recipe: Recipe, value: string) =>
     recipe.readyInMinutes >= +value,
   maxCookingTime: (recipe: Recipe, value: string) =>
     recipe.readyInMinutes <= +value,
-  servings: (recipe: Recipe, value: string) =>
-    recipe.servings === Number(value),
+  servings: (recipe: Recipe, value: string) => recipe.servings >= Number(value),
   dishType: (recipe: Recipe, value: string) =>
     recipe.dishTypes.includes(value.toLowerCase()),
   cuisine: (recipe: Recipe, value: string) => recipe.cuisines.includes(value),
@@ -41,7 +41,5 @@ export const GET = async (req: NextRequest) => {
     }
     return include;
   });
-
-  console.log('recipes', recipes);
   return NextResponse.json({ recipes: recipes });
 };

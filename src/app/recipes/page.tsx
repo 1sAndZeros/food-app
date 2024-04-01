@@ -6,6 +6,7 @@ import InfoCard from "@/components/InfoCard";
 import RecipeList from "@/components/RecipeList";
 import { Recipe, RecipeSearchParams } from "@/types";
 import { fetchRecipes } from "@/utils";
+import { Container } from "./styles";
 
 interface RecipePageProps {
   searchParams: RecipeSearchParams
@@ -23,13 +24,11 @@ const RecipesPage = async ({ searchParams }: RecipePageProps) => {
 
   return (
     <>
-      <h1>My Recipes</h1>
-      <div
-        style={{ display: "grid", gridTemplateColumns: "4fr 5fr", gap: "2rem" }}
-      >
+      <h1 style={{marginBottom: '1rem'}}>My Recipes</h1>
+      <Container>
         <SearchRecipes />
         <InfoCard />
-      </div>
+      </Container>
       <RecipeList recipes={recipes} />
     </>
   );

@@ -1,21 +1,13 @@
 'use client';
 
 import styled from 'styled-components';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from './Button';
 import { cusines, dishTypes } from '@/data';
-import {
-  Cuisine,
-  Dish,
-  CookingTime,
-  FilterProps,
-  RecipeSearchParams,
-} from '@/types';
+import { Cuisine, Dish, FilterProps } from '@/types';
 import Container from './Container';
 import MultiRangeSlider from './MultiRangeSlider/MultiRangeSlider';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { updateSearchParams } from '@/utils';
-import { set } from 'mongoose';
 
 const StyledForm = styled.form`
   display: flex;
@@ -110,6 +102,7 @@ const StyledForm = styled.form`
 
   .form-group {
     position: relative;
+    align-self: stretch;
   }
 
   input[type='range'] {
@@ -133,7 +126,7 @@ const SearchRecipes = () => {
   const vegan = searchParams.get('vegan');
   const dairyFree = searchParams.get('dairyFree');
   const vegetarian = searchParams.get('vegetarian');
-  console.log(vegan, dairyFree, vegetarian);
+
   const [filters, setFilters] = useState<FilterProps>({
     dishType: (searchParams.get('dishType') as Dish) || 'Dinner',
     cuisine: (searchParams.get('cuisine') as Cuisine) || 'Italian',
@@ -147,43 +140,25 @@ const SearchRecipes = () => {
     },
   });
 
-  // useEffect(() => {
-  //   const vegan = searchParams.get('vegan');
-  //   console.log(vegan);
-  //   if (vegan === 'true' || vegan === 'false') {
-  //     console.log('vegan', Boolean(vegan));
-  //     setFilters((prev) => ({ ...prev, vegan: Boolean(vegan) }));
-  //   }
-  // }, []);
-
-  useEffect(() => {
-    console.log(filters);
-  }, [filters]);
-
-  // const [activeDishType, setActiveDishType] = useState<Dish | null>("Dinner");
-  // const [activeCuisineType, setActiveCuisineType] = useState<Cuisine | null>(
-  //   "Italian"
-  // );
-  // const servingRef = useRef<HTMLSelectElement>(null);
-  // const [cookingTime, setCookingTime] = useState<CookingTime>({
-  //   min: 10,
-  //   max: 180,
-  // });
-  // const vegetarianRef = useRef<HTMLInputElement>(null);
-  // const veganRef = useRef<HTMLInputElement>(null);
-  // const diaryFreeRef = useRef<HTMLInputElement>(null);
-
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const searchParams = new URLSearchParams({
-      dishType: filters.dishType,
-      cuisine: filters.cuisine,
-      servings: filters.servings.toString(),
-      dairyFree: filters.dairyFree.toString(),
-      vegan: filters.vegan.toString(),
-      vegetarian: filters.vegetarian.toString(),
-      minCookingTime: filters.cookingTime.min.toString(),
-      maxCookingTime: filters.cookingTime.max.toString(),
+    const searchParams = new URLSearchParams();
+
+    const searchFilters = {
+      dishType: filters?.dishType,
+      cuisine: filters?.cuisine,
+      servings: filters?.servings?.toString(),
+      dairyFree: filters?.dairyFree?.toString(),
+      vegan: filters?.vegan?.toString(),
+      vegetarian: filters?.vegetarian?.toString(),
+      minCookingTime: filters?.cookingTime?.min.toString(),
+      maxCookingTime: filters?.cookingTime?.max.toString(),
+    };
+
+    Object.entries(searchFilters).forEach(([key, value]) => {
+      if (value) {
+        searchParams.set(key, value);
+      }
     });
 
     const newPathName = `${
@@ -192,15 +167,6 @@ const SearchRecipes = () => {
 
     router.push(newPathName, { scroll: false });
   };
-
-  // const handleChangeType = (type: FilterProps | null) => {
-  //   console.log(type);
-  //   if (type) {
-  //     setActiveDishType(type);
-  //     const newPathName = updateSearchParams("dishType", type.toLowerCase());
-  //     router.push(newPathName, { scroll: false });
-  //   }
-  // };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,

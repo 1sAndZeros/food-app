@@ -13,6 +13,7 @@ const white = (props: SliderProps) => props.theme.colors.neutral.white;
 const primary = (props: SliderProps) => props.theme.colors.primary;
 
 const StyledDiv = styled.div`
+  --width: 100%;
   height: 60px;
   display: flex;
   align-items: center;
@@ -20,7 +21,7 @@ const StyledDiv = styled.div`
 
   .slider {
     position: relative;
-    width: 200px;
+    width: var(--width);
   }
 
   .slider__track,
@@ -73,7 +74,7 @@ const StyledDiv = styled.div`
     pointer-events: none;
     position: absolute;
     height: 0;
-    width: 200px;
+    width: var(--width);
     outline: none;
   }
 

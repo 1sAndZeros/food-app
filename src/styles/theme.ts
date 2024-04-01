@@ -10,6 +10,10 @@ const theme = {
       black: '#000',
       800: '#262522',
     },
+    other: {
+      green: '#00A896',
+      pearl: '#E8DBC5',
+    },
   },
 };
 

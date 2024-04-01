@@ -4,9 +4,10 @@ import { Recipe } from '@/types';
 import styled from 'styled-components';
 import React from 'react';
 import Image from 'next/image';
-import { Star1 } from 'iconsax-react';
+import { Star1, Apple, Milk } from 'iconsax-react';
 import { convertTime } from '@/utils';
 import Button from './Button';
+import VegetarianIcon from '@/assets/svg-icons/vegan.svg';
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -64,6 +65,47 @@ const StyledDiv = styled.div`
   button {
     font-size: 0.75rem;
   }
+
+  .diet-icons {
+    display: flex;
+    gap: 0.5rem;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+
+    & svg {
+      width: 3rem;
+      height: 3rem;
+      fill: white;
+      color: black;
+      background-color: ${(props) => props.theme.colors.other.green};
+      padding: 0.75rem;
+      border: 2px solid black;
+      border-radius: 50%;
+      overflow: visible;
+      stroke-width: 5px;
+    }
+    & .vegan-icon {
+      background-color: #1dc31d;
+      color: black;
+      width: 3rem;
+      height: 3rem;
+      display: grid;
+      place-items: center;
+      font-size: 1.5rem;
+      border-radius: 50%;
+      border: 2px solid black;
+      font-weight: 500;
+    }
+    & .dairy-icon {
+      background-color: ${(props) => props.theme.colors.other.pearl};
+    }
+    & .vegetarian-icon {
+      background-color: white;
+      fill: ${(props) => props.theme.colors.primary};
+      padding: 0.5rem;
+    }
+  }
 `;
 
 const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
@@ -83,15 +125,11 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
       </p>
       <div className='details'>
         <p className='recipe__content'>Serves {recipe.servings}</p>
-        {recipe.dairyFree && (
-          <p className='recipe__content'>{recipe.dairyFree && 'Dairy Free'}</p>
-        )}
-        {recipe.vegan && (
-          <p className='recipe__content'>{recipe.vegan && 'Vegan'}</p>
-        )}
-        {recipe.vegetarian && (
-          <p className='recipe__content'>{recipe.vegetarian && 'Veg'}</p>
-        )}
+        <div className='diet-icons'>
+          {recipe.dairyFree && <Milk className='dairy-icon' />}
+          {recipe.vegetarian && <VegetarianIcon className='vegetarian-icon' />}
+          {recipe.vegan && <div className='vegan-icon'>VG</div>}
+        </div>
         <p className='recipe__content'>
           Time: {convertTime(recipe.readyInMinutes)}
         </p>
