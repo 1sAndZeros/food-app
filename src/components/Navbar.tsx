@@ -1,55 +1,63 @@
-import Link from './Link';
-import { getServerSession } from 'next-auth';
-import { options } from '@/app/api/auth/[...nextauth]/options';
+'use client'
+import styled from 'styled-components';
+import Link from 'next/link';
 import Image from 'next/image';
-import Avatar from './Avatar';
+import { usePathname } from 'next/navigation';
+import User from './User';
+import { navLinks } from '@/data';
 
-const Navbar = async () => {
-  const session = await getServerSession(options);
+
+const StyledNavbar = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: 1px solid #2625223e;
+  border-radius: 2rem;
+  & .brand {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    gap: .4rem;
+  }
+  & nav {
+    text-transform: uppercase;
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+  
+    & a {
+      color: ${props => props.theme.colors.neutral.grey};
+      font-size: clamp(.7rem, 2vw, .8rem);
+    }
+    .active {
+        color: ${props => props.theme.colors.neutral.black};
+        border-bottom: 2px solid ${props => props.theme.colors.primary};
+      }
+  }
+`;
+
+const Navbar = () => {
+  const pathname = usePathname();
+  const isActive = (link: string) => pathname === link;
+
   return (
-    <header>
-      <nav
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: 20,
-          backgroundColor: session
-            ? 'rgba(75, 127, 82)'
-            : 'rgba(75, 127, 82, 0.5)',
-          marginBottom: 20,
-        }}
-      >
-        <Link href='/'>Food App</Link>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: 10,
-          }}
-        >
-          {session ? (
-            <>
-              <Link href='/client'>Client</Link>
-              <Link href='/dashboard'>Dashboard</Link>
-              <p>
-                {session?.user?.name} ({session?.user?.email})
-              </p>
-              <Avatar size='small' />
-              <Link href='/api/auth/signout?callbackUrl=/' variant='danger'>
-                Logout
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link href='/api/auth/signin'>Login</Link>
-              <Link href='/auth/signup'>Signup</Link>
-            </>
-          )}
-        </div>
-      </nav>
-    </header>
+      <StyledNavbar>
+        <Link href='/' className='brand'>
+          <Image alt='logo' src='Logo.svg' width='40' height='30' />
+            Food App
+          </Link>
+        <nav>
+          {navLinks.map((link, index) => (
+              <li key={index}>
+                  <Link className={isActive(link.link) ? 'active' : ''} href={link.link}>{link.name}
+                  </Link>
+              </li>
+          ))}
+        </nav>
+        <User />
+      </StyledNavbar>
   );
 };
 

@@ -1,8 +1,4 @@
-export interface ExampleProps {
-  title: string;
-  type?: 'button' | 'submit';
-  isDisabled?: boolean;
-}
+import { cusines, dishTypes } from '@/data';
 
 export interface Recipe {
   id: number;
@@ -20,4 +16,39 @@ export interface Recipe {
   cuisines: string[];
   dishTypes: string[];
   instructions: string;
+}
+
+export type Dish = (typeof dishTypes)[number];
+
+export type Cuisine = (typeof cusines)[number];
+
+export interface NavLink {
+  name: string;
+  link: string;
+}
+
+export type CookingTime = {
+  min: number;
+  max: number;
+};
+
+export interface FilterProps {
+  dishType?: Dish;
+  cuisine?: Cuisine;
+  dairyFree?: boolean;
+  vegan?: boolean;
+  vegetarian?: boolean;
+  servings?: number;
+  cookingTime?: CookingTime;
+}
+
+export interface RecipeSearchParams {
+  dishType?: Dish;
+  cuisine?: Cuisine;
+  dairyFree?: boolean;
+  vegan?: boolean;
+  vegetarian?: boolean;
+  servings?: number;
+  minCookingTime?: number;
+  maxCookingTime?: number;
 }

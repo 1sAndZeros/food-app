@@ -1,25 +1,39 @@
-import Image from 'next/image';
 import { getServerSession } from 'next-auth';
 import { options } from './api/auth/[...nextauth]/options';
-import { redirect } from 'next/navigation';
+import HeroSection from '@/components/HeroSection';
+import RecipeList from '@/components/RecipeList';
+import { fetchRecipes } from '@/utils';
+import { Recipe, RecipeSearchParams } from '@/types';
+import { Header } from '@/components/RecipeList.styles';
 
-export default async function Home() {
+interface HomeProps {
+  searchParams: RecipeSearchParams;
+}
+
+export default async function Home({ searchParams }: HomeProps) {
+  // const { recipes = [] } = await fetchRecipes({
+  //   dishType: searchParams?.dishType || 'Dinner',
+  //   cuisine: searchParams?.cuisine || 'Italian',
+  //   dairyFree: searchParams?.dairyFree || false,
+  //   vegan: searchParams?.vegan || false,
+  //   vegetarian: searchParams?.vegetarian || false,
+  //   servings: searchParams?.servings || 1,
+  //   cookingTime: {
+  //     min: searchParams?.minCookingTime || 10,
+  //     max: searchParams?.maxCookingTime || 180,
+  //   },
+  // });
   const session = await getServerSession(options);
-  if (session) {
-    redirect('/dashboard');
-  }
+
+  const data = await fetchRecipes(searchParams);
+
+  const recipes = data?.recipes as Recipe[];
+
   return (
     <main style={{ display: 'grid', placeItems: 'center' }}>
-      <h1>Welcome to Food App</h1>
-      <p>
-        The best place to find the most delicious food and drinks in the world.
-      </p>
-      <Image
-        src='/image-bg.jpg'
-        alt=''
-        fill
-        style={{ zIndex: -99, objectFit: 'cover' }}
-      />
+      <HeroSection />
+      <Header />
+      <RecipeList recipes={recipes} />
     </main>
   );
 }

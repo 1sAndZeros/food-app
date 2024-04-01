@@ -1,6 +1,6 @@
 import styled, { css, DefaultTheme } from 'styled-components';
 
-type Variants = 'primary' | 'secondary' | 'danger' | 'warning';
+type Variants = 'primary' | 'secondary' | 'danger' | 'warning' | 'ghost' | 'ghostgrey';
 
 const variants = (theme: DefaultTheme, variant: Variants = 'primary') =>
   ({
@@ -24,15 +24,27 @@ const variants = (theme: DefaultTheme, variant: Variants = 'primary') =>
       background: ${theme.colors.warning};
       border: 2px solid ${theme.colors.warning};
     `,
+    ghost: css`
+      color: ${theme.colors.secondary};
+      background: transparent;
+      border: 2px solid ${theme.colors.secondary};
+    `,
+    ghostgrey: css`
+      color: ${theme.colors.neutral.grey};
+      background: transparent;
+      border: 2px solid ${theme.colors.neutral.grey};
+    `,
   }[variant]);
 
 // Define our button, but with the use of props.theme this time
 const Button = styled.button<{ variant?: Variants }>`
-  min-width: 200px;
+  min-width: fit-content;
   border: none;
   border-radius: 999px;
-  font-size: 18px;
-  padding: 7px 10px;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  text-transform: uppercase;
+  font-family: inherit;
   ${(props) => variants(props.theme, props.variant)};
   &:hover {
     cursor: pointer;
