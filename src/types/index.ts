@@ -8,7 +8,7 @@ export interface Recipe {
   glutenFree: boolean;
   dairyFree: boolean;
   healthScore: number;
-  extendedIngredients: any[];
+  extendedIngredients: Ingredient[];
   readyInMinutes: number;
   servings: number;
   image: string;
@@ -16,7 +16,8 @@ export interface Recipe {
   cuisines: string[];
   dishTypes: string[];
   instructions: string;
-}
+  diets: string[];
+};
 
 export type Dish = (typeof dishTypes)[number];
 
@@ -25,11 +26,31 @@ export type Cuisine = (typeof cusines)[number];
 export interface NavLink {
   name: string;
   link: string;
-}
+};
 
 export type CookingTime = {
   min: number;
   max: number;
+};
+
+export interface Ingredient {
+  id: number;
+  nameClean: string;
+  aisle: string | null;
+  amount: number;
+  unit: string;
+};
+
+export interface Instruction {
+  name: string;
+  steps: Step[];
+};
+
+export interface Step {
+  equipment: any[];
+  ingredients: Ingredient[];
+  number: number;
+  step: string;
 };
 
 export interface FilterProps {
@@ -40,7 +61,7 @@ export interface FilterProps {
   vegetarian?: boolean;
   servings?: number;
   cookingTime?: CookingTime;
-}
+};
 
 export interface RecipeSearchParams {
   dishType?: Dish;
@@ -51,4 +72,4 @@ export interface RecipeSearchParams {
   servings?: number;
   minCookingTime?: number;
   maxCookingTime?: number;
-}
+};

@@ -30,6 +30,9 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  env: {
+      FOOD_API_KEY: process.env.FOOD_API_KEY
+  },
   images: {
     remotePatterns: [
       {

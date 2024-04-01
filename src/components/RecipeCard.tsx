@@ -4,6 +4,7 @@ import { Recipe } from '@/types';
 import styled from 'styled-components';
 import React from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Star1, Apple, Milk } from 'iconsax-react';
 import { convertTime } from '@/utils';
 import Button from './Button';
@@ -109,9 +110,11 @@ const StyledDiv = styled.div`
 `;
 
 const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
+  const router = useRouter();
+
   return (
     <StyledDiv>
-      <Image src={recipe.image} alt={recipe.title} fill />
+      <Image src={recipe.image} alt={recipe.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
       <Star1 className='icon' size='32' />
       <h3 key={recipe.id}>{recipe.title}</h3>
       <p className='recipe__content'>{recipe.cuisines.join(', ')}</p>
@@ -133,7 +136,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
         <p className='recipe__content'>
           Time: {convertTime(recipe.readyInMinutes)}
         </p>
-        <Button variant='ghost'>View Recipe</Button>
+        <Button variant='ghost' onClick={() => router.push(`/recipes/${recipe.id}`)}>View Recipe</Button>
       </div>
     </StyledDiv>
   );

@@ -1,4 +1,4 @@
-import { Dish, FilterProps, Recipe } from '@/types';
+import { Dish, FilterProps, Recipe, Instruction } from '@/types';
 
 export const fetchRecipes = async (
   filters: FilterProps,
@@ -41,4 +41,36 @@ export const updateSearchParams = (type: string, value: string) => {
 
   const newPathName = `${window.location.pathname}?${searchParams.toString()}`;
   return newPathName;
+};
+
+export const fetchRecipe = async (
+  id: string,
+): Promise<{ recipe: Recipe } | undefined> => {
+
+  try {
+    const URL = `http://localhost:3000/api/recipes/${id}`;
+    console.log('url', URL);
+    const res = await fetch(URL);
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error('error:', error);
+  }
+};
+
+export const fetchRecipeInstructions = async (
+  id: number,
+): Promise<Instruction[] | undefined> => {
+
+  try {
+    const API_KEY = process.env.FOOD_API_KEY;
+    console.log(API_KEY, 'keyy')
+    const URL = `https://api.spoonacular.com/recipes/${id}/analyzedInstructions?apiKey=${API_KEY}`;
+    console.log('url', URL);
+    const res = await fetch(URL);
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error('error:', error);
+  }
 };
